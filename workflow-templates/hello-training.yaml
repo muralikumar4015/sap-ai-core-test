@@ -3,23 +3,29 @@ kind: WorkflowTemplate
 metadata:
   name: hello-training
   annotations:
-    scenarios.ai.sap.com/description: "My First AI Training"
+    scenarios.ai.sap.com/description: "Simple Hello World Training"
     scenarios.ai.sap.com/name: "hello-world"
-    executables.ai.sap.com/description: "Simple training job"
+    executables.ai.sap.com/description: "Training executable"
     executables.ai.sap.com/name: "training"
   labels:
     scenarios.ai.sap.com/id: "hello-world"
     ai.sap.com/version: "1.0"
 spec:
+  imagePullSecrets:
+    - name: default-docker-registry
   entrypoint: main
   templates:
   - name: main
     container:
       image: python:3.9-slim
-      command: ["/bin/sh", "-c"]
-      args:
+      command:
+        - sh
+        - -c
         - |
-          echo "Starting AI Training..."
+          echo "=== AI Training Started ==="
+          echo "Loading dataset..."
+          sleep 5
           echo "Training model..."
-          sleep 30
-          echo "Training completed successfully!"
+          sleep 10
+          echo "Model training completed!"
+          echo "=== Training Finished ==="
