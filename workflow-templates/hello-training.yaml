@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: hello-training
+  annotations:
+    scenarios.ai.sap.com/description: "My First AI Training"
+    scenarios.ai.sap.com/name: "hello-world"
+    executables.ai.sap.com/description: "Simple training job"
+    executables.ai.sap.com/name: "training"
+  labels:
+    scenarios.ai.sap.com/id: "hello-world"
+    ai.sap.com/version: "1.0"
+spec:
+  entrypoint: main
+  templates:
+  - name: main
+    container:
+      image: python:3.9-slim
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          echo "Starting AI Training..."
+          echo "Training model..."
+          sleep 10
+          echo "Training completed successfully!"
