@@ -1,0 +1,27 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: hello-serving
+  annotations:
+    scenarios.ai.sap.com/description: "My First AI Serving"
+    scenarios.ai.sap.com/name: "hello-world"
+    executables.ai.sap.com/description: "Simple serving endpoint"
+    executables.ai.sap.com/name: "serving"
+  labels:
+    scenarios.ai.sap.com/id: "hello-world"
+    ai.sap.com/version: "1.0"
+spec:
+  predictor:
+    minReplicas: 1
+    maxReplicas: 1
+    containers:
+    - name: kserve-container
+      image: python:3.9-slim
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          echo "Starting serving endpoint..."
+          python3 -m http.server 8080
+      ports:
+      - containerPort: 8080
+        protocol: TCP
