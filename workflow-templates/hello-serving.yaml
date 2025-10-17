@@ -3,25 +3,22 @@ kind: InferenceService
 metadata:
   name: hello-serving
   annotations:
-    scenarios.ai.sap.com/description: "My First AI Serving"
+    scenarios.ai.sap.com/description: "Simple Hello World Serving"
     scenarios.ai.sap.com/name: "hello-world"
-    executables.ai.sap.com/description: "Simple serving endpoint"
+    executables.ai.sap.com/description: "Serving executable"
     executables.ai.sap.com/name: "serving"
   labels:
     scenarios.ai.sap.com/id: "hello-world"
     ai.sap.com/version: "1.0"
 spec:
   predictor:
+    imagePullSecrets:
+      - name: default-docker-registry
     minReplicas: 1
     maxReplicas: 1
     containers:
     - name: kserve-container
-      image: python:3.9-slim
-      command: ["/bin/sh", "-c"]
-      args:
-        - |
-          echo "Starting serving endpoint..."
-          python3 -m http.server 8080
+      image: sapse/sklearn-iris:latest
       ports:
-      - containerPort: 8080
+      - containerPort: 9001
         protocol: TCP
